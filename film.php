@@ -14,6 +14,8 @@ $actors = getActorsByMovieId($movieId);
 
 $synopsis = $film["overview"] === "" ? $filmEnglish["overview"] . "(Pas de synopsis en fr)" : $film["overview"];
 
+$trailer = getTrailerByMovieId($movieId) ?? null;
+
 ?>
 
 <div class="container py-5">
@@ -27,6 +29,13 @@ $synopsis = $film["overview"] === "" ? $filmEnglish["overview"] . "(Pas de synop
             <p><strong>Date de sortie :</strong> <?= $film['release_date']; ?></p>
             <p><strong>Note moyenne :</strong> <?= $film['vote_average']; ?>/10</p>
             <p><strong>Résumé :</strong> <?= $synopsis; ?></p>
+
+            <?php if ($trailer) { ?>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $trailer[0]['key'] ?>"
+                        title="<?= $trailer[0]['name'] ?>" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <?php } ?>
         </div>
     </div>
 
@@ -60,3 +69,5 @@ $synopsis = $film["overview"] === "" ? $filmEnglish["overview"] . "(Pas de synop
         </div>
     </div>
 </div>
+
+<?php require("footer.php"); ?>

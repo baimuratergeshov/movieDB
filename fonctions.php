@@ -5,10 +5,10 @@ require_once("get-proxy.php");// au lycée pour faire des requêtes https vous a
 $key = "9e43f45f94705cc8e1d5a0400d19a7b7";
 
 //fonction qui retourne dans un tableau asociatif les 20 films les plus populaires 
-function popularMovies()
+function popularMovies($page = 1)
 {
     global $key;
-    $url = "https://api.themoviedb.org/3/movie/popular?api_key=$key&language=fr-FR";
+    $url = "https://api.themoviedb.org/3/movie/popular?api_key=$key&language=fr-FR&page=$page";
     $response = getProxy($url);
     //$response = file_get_contents("https://api.themoviedb.org/3/movie/popular?api_key=$key&language=fr-FR");
 
@@ -16,10 +16,10 @@ function popularMovies()
     return $result['results'];
 }
 
-function topRatedMovies()
+function topRatedMovies($page = 1)
 {
     global $key;
-    $url = "https://api.themoviedb.org/3/movie/top_rated?api_key=$key&language=fr-FR";
+    $url = "https://api.themoviedb.org/3/movie/top_rated?api_key=$key&language=fr-FR&page=$page";
     $response = getProxy($url);
     //$response = file_get_contents("https://api.themoviedb.org/3/movie/top_rated?api_key=$key&language=fr-FR");
 
@@ -27,10 +27,10 @@ function topRatedMovies()
     return $result['results'];
 }
 
-function filmParGenre($genreId)
+function filmParGenre($genreId, $page = 1)
 {
     global $key;
-    $url = "https://api.themoviedb.org/3/discover/movie?api_key=$key&language=fr-FR&with_genres=$genreId";
+    $url = "https://api.themoviedb.org/3/discover/movie?api_key=$key&language=fr-FR&with_genres=$genreId&page=$page";
     $response = getProxy($url);
     //$response = file_get_contents("https://api.themoviedb.org/3/discover/movie?api_key=$key&language=fr-FR&with_genres=$genreId");
     $result = json_decode($response, true);
@@ -62,9 +62,9 @@ function getFilmById($movieId, $language = "fr-FR")
     return $result;
 }
 
-function getActorsByMovieId($movieId){
+function getActorsByMovieId($movieId, $page = 1){
     global $key;
-    $url = "https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$key&language=fr-FR";
+    $url = "https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$key&language=fr-FR&page=$page";
     $response = getProxy($url);
     //$response = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$key&language=fr-FR");
     $result = json_decode($response, true);
@@ -80,13 +80,40 @@ function getActorById($actorId, $language = "fr-FR"){
     return $result;
 }
 
-function getFilmsByActorId($actorId){
+function getFilmsByActorId($actorId, $page = 1){
     global $key;
-    $url = "https://api.themoviedb.org/3/person/$actorId/movie_credits?api_key=$key&language=fr-FR";
+    $url = "https://api.themoviedb.org/3/person/$actorId/movie_credits?api_key=$key&language=fr-FR&page=$page";
     $response = getProxy($url);
     //$response = file_get_contents("https://api.themoviedb.org/3/person/$actorId/movie_credits?api_key=$key&language=fr-FR");
     $result = json_decode($response, true);
     return $result['cast'];
+}
+
+function searchFilm($query, $page = 1){
+    global $key;
+    $url = "https://api.themoviedb.org/3/search/movie?api_key=$key&query=" . urlencode($query) . "&page=$page";
+    $response = getProxy($url);
+    //$response = file_get_contents("https://api.themoviedb.org/3/search/movie?api_key=$key&language=fr-FR&query=" . urlencode($query));
+    $result = json_decode($response, true);
+    return $result['results'];
+}
+
+function searchActor($query, $page = 1){
+    global $key;
+    $url = "https://api.themoviedb.org/3/search/person?api_key=$key&query=" . urlencode($query) . "&page=$page";
+    $response = getProxy($url);
+    //$response = file_get_contents("https://api.themoviedb.org/3/search/person?api_key=$key&language=fr-FR&query=" . urlencode($query));
+    $result = json_decode($response, true);
+    return $result['results'];
+}
+
+function getTrailerByMovieId($movieId){
+    global $key;
+    $url = "https://api.themoviedb.org/3/movie/$movieId/videos?api_key=$key&language=fr-FR";
+    $response = getProxy($url);
+    //$response = file_get_contents("https://api.themoviedb.org/3/movie/$movieId/videos?api_key=$key&language=fr-FR");
+    $result = json_decode($response, true);
+    return $result['results'];
 }
 
 
