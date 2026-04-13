@@ -6,9 +6,11 @@ if (isset($_GET['actor_id']) AND !empty($_GET['actor_id'])) {
     $actorId = $_GET['actor_id'] ?? 0;
 }
 
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
 $actor = getActorById($actorId);
 $actorEnglish = getActorById($actorId, "en-US");
-$films = getFilmsByActorId($actorId);
+$films = getFilmsByActorId($actorId, $page);
 
 $synopsis = $actor["biography"] === "" ? $actorEnglish["biography"] . "(Pas de synopsis en fr)" : $actor["biography"];
 ?>
@@ -52,6 +54,14 @@ $synopsis = $actor["biography"] === "" ? $actorEnglish["biography"] . "(Pas de s
 
                     <?php } ?>
                 <?php endforeach; ?>
+            </div>
+            <div class="mt-4 d-flex justify-content-between">
+                <?php if ($page > 1): ?>
+                    <a href="?actor_id=<?= $actorId ?>&page=<?= $page - 1; ?>" class="btn btn-secondary">Précédent</a>
+                <?php else: ?>
+                    <span></span>
+                <?php endif; ?>
+                <a href="?actor_id=<?= $actorId ?>&page=<?= $page + 1; ?>" class="btn btn-secondary">Suivant</a>
             </div>
         </div>
     </div>

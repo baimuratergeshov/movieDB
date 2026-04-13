@@ -2,7 +2,7 @@
 
 include_once("header.php");
 
-if (isset($_GET['query']) AND !empty($_GET['query'])) {
+if (isset($_GET['query']) && !empty($_GET['query'])) {
     $search = $_GET['query'];
 }
 
