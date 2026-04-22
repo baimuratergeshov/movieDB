@@ -1,5 +1,6 @@
 # Compte Rendu de TP - Moteur de Recherche MovieDB
-**Baimurat ERGESHOV** | SIO 1ère année
+**Baimurat ERGESHOV**
+**SIO12**
 
 ---
 
